@@ -1,0 +1,69 @@
+<%- include('../partials/header') %>
+
+<section id="form">
+    <div>Airline: <%= flight.airline %></div>
+    <div>Airport (For Departure): <%= flight.airport %></div>
+    <div>Flight Number: <%= flight.flightNo %></div>
+    <div>Departure Date & Time: <%= flight.departs %></div>
+    <a href="/flights/<%= flight._id %>/tickets/new"><button>Add Ticket</button></a> 
+</section>
+
+<% if (ticket.length > 0) { %>
+  <table>
+    <thead>
+      <tr>
+        <th>Seat</th>
+        <th>Price</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% ticket.forEach(function(t) { %>
+        <tr>
+          <td><%= t.seat %></td>
+          <td><%= t.price %></td>
+        </tr>
+      <% }); %>
+    </tbody>
+  </table>
+<% } else { %>
+  <h5 id="ticket-warning">There are no tickets created yet. Please add a ticket if you would like to create a ticket.</h5>
+<% } %>
+
+<br><br><h2>Add Destination</h2>
+<form id="add-destination-form" method="POST"
+  action="/flights/<%= flight._id %>/destinations">
+  <label>Airport:</label>
+  <select name="airport">
+    <option value="AUS">AUS</option>
+    <option value="DFW">DFW</option>
+    <option value="DEN">DEN</option>
+    <option value="LAX">LAX</option>
+    <option value="JFK">JFK</option> 
+</select>
+  <label id="arrival-info-text">Arrival Information (Date & Time):</label>
+  <input type="date" name="Destination">
+  <input type="submit" value="Add Destination">
+</form>
+
+<% if (flight.destinations.length) { %>
+    <table>
+      <thead>
+        <tr>
+          <th>Airport</th>
+          <th>Arrival Date</th>
+        </tr>
+      </thead>
+      <tbody> 
+      <% flight.destinations.forEach(function(f) { %>
+        <tr>
+          <td><%= f.airport %></td>
+          <td><%= f.arrival %></td>
+        </tr>
+        <% }); %>
+      </tbody>
+    </table>
+    <% } else { %>
+    <h5 id="destination-warn">There are no destinations confirmed yet. Please add a destination for your flight.</h5>
+    <% } %>
+
+<%- include('../partials/footer') %>
